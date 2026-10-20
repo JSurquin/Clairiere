@@ -8,6 +8,24 @@ Clairière montre ce qui occupe la mémoire et le disque de votre Mac, puis vous
 
 Le code est libre, en entier, sous [licence MIT](LICENSE) : l’utiliser, le modifier et le redistribuer est permis.
 
+## Aperçu
+
+Accueil. Les tuiles résument, sans lancer de gros calcul toutes seules.
+
+<img src="docs/screenshots/accueil.png" alt="Accueil de Clairière" width="860">
+
+Mémoire. Les apps sont rangées, avec ce qu’elles utilisent et les boutons Fermer et Forcer.
+
+<img src="docs/screenshots/memoire.png" alt="Onglet Mémoire" width="860">
+
+Nettoyage. Une ligne comme Caches s’ouvre pour montrer ce qu’elle contient. Rien ne part sans confirmation.
+
+<img src="docs/screenshots/nettoyage.png" alt="Onglet Nettoyage" width="860">
+
+Stockage. La place du disque, et les copies locales iCloud que l’on peut retirer de ce Mac.
+
+<img src="docs/screenshots/stockage.png" alt="Onglet Stockage" width="860">
+
 ## Onglets
 
 | Onglet | Ce que vous y faites |
