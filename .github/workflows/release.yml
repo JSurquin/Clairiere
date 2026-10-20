@@ -1,0 +1,88 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Numéro de version, sans le v. Exemple : 1.0.0"
+        required: true
+        type: string
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Publier Clairière
+    runs-on: macos-latest
+    steps:
+      - name: Code
+        uses: actions/checkout@v4
+
+      - name: Version
+        id: version
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="${{ inputs.version }}"
+            if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "Version attendue : 1.2.3" >&2
+              exit 1
+            fi
+            TAG="v$VERSION"
+          else
+            TAG="${GITHUB_REF_NAME}"
+            VERSION="${TAG#v}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "number=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Numéro dans l’app
+        run: |
+          set -euo pipefail
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${{ steps.version.outputs.number }}" Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ steps.version.outputs.number }}" Info.plist
+
+      - name: Compiler
+        run: |
+          set -euo pipefail
+          swift --version
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Archive
+        run: |
+          set -euo pipefail
+          ditto -c -k --keepParent dist/Clairiere.app Clairiere-macOS.zip
+          ls -lh Clairiere-macOS.zip
+
+      - name: Publier
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" \
+            Clairiere-macOS.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Clairière $TAG" \
+            --target "$GITHUB_SHA" \
+            --notes "$(cat <<EOF
+          ## Clairière $TAG
+
+          Application pour Mac Apple silicon, macOS 14 ou plus récent.
+
+          1. Téléchargez \`Clairiere-macOS.zip\`.
+          2. Ouvrez l’archive, puis glissez Clairière dans le dossier Applications.
+          3. Au premier lancement : clic droit sur l’app, puis **Ouvrir**. Cette build est signée localement, sans notarisation Apple.
+
+          Le code est libre, licence MIT.
+          EOF
+          )"
