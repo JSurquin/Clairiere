@@ -19,7 +19,7 @@ struct InspectorView: View {
                             .font(.system(size: 22, weight: .medium, design: .default))
                             .foregroundStyle(Theme.text)
                         Text(Format.mem(group.footprint))
-                            .font(.system(size: 20, weight: .medium, design: .rounded))
+                            .font(.system(size: 20, weight: .medium, design: .default))
                             .foregroundStyle(Theme.text)
                     }
                 }
@@ -98,7 +98,7 @@ struct InspectorView: View {
                             .lineLimit(1)
                         Spacer()
                         Text(Format.mem(part.footprint))
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
+                            .font(.system(size: 12, weight: .medium, design: .default))
                             .foregroundStyle(Theme.text)
                     }
                     HStack {
@@ -107,7 +107,7 @@ struct InspectorView: View {
                             .foregroundStyle(Theme.muted)
                         if abs(part.driftPerMinute) > 20_000_000 {
                             Text(Format.signedMem(part.driftPerMinute))
-                                .font(.system(size: 11, design: .rounded))
+                                .font(.system(size: 11, design: .default))
                                 .foregroundStyle(part.driftPerMinute > 0 ? Theme.coral : Theme.leaf)
                         }
                         Spacer()
@@ -164,7 +164,7 @@ struct InspectorView: View {
                 .foregroundStyle(Theme.muted)
             Spacer()
             Text(value)
-                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .font(.system(size: 12, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
         }
     }

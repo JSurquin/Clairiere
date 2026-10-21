@@ -32,7 +32,7 @@ struct StrataView: View {
                 }
                 Spacer()
                 Text(Format.mem(rows.reduce(0) { $0 + $1.footprint }))
-                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .font(.system(size: 13, weight: .medium, design: .default))
                     .foregroundStyle(strata.tint)
             }
             ForEach(rows) { group in
@@ -86,10 +86,10 @@ struct GroupCard: View {
                 Spacer(minLength: 12)
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(Format.mem(group.footprint))
-                        .font(.system(size: 18, weight: .medium, design: .rounded))
+                        .font(.system(size: 18, weight: .medium, design: .default))
                         .foregroundStyle(Theme.text)
                     Text(Format.share(group.footprint, of: max(store.snapshot.physical, 1)))
-                        .font(.system(size: 11, weight: .medium, design: .rounded))
+                        .font(.system(size: 11, weight: .medium, design: .default))
                         .foregroundStyle(Theme.muted)
                 }
             }

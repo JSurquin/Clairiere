@@ -28,14 +28,14 @@ struct SidebarView: View {
                         .foregroundStyle(store.band.tint)
                 }
                 Text(store.snapshot.physical == 0 ? "…" : Format.mem(store.snapshot.used))
-                    .font(.system(size: 28, weight: .medium, design: .rounded))
+                    .font(.system(size: 28, weight: .medium, design: .default))
                     .foregroundStyle(Theme.text)
                 Text(store.snapshot.physical == 0 ? "lecture…" : "utilisés sur \(Format.mem(store.snapshot.physical))")
                     .font(.system(size: 12))
                     .foregroundStyle(Theme.muted)
                 if store.snapshot.swapUsed > 0 {
                     Text("\(Format.mem(store.snapshot.swapUsed)) sur le disque")
-                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .font(.system(size: 12, weight: .medium, design: .default))
                         .foregroundStyle(store.snapshot.swapUsed > 2_000_000_000 ? Theme.coral : Theme.gold)
                 }
             }
@@ -62,7 +62,7 @@ struct SidebarView: View {
                     Spacer()
                     if !store.idleHeavy.isEmpty {
                         Text("\(store.idleHeavy.count)")
-                            .font(.system(size: 11, weight: .bold, design: .rounded))
+                            .font(.system(size: 11, weight: .bold, design: .default))
                             .padding(.horizontal, 7)
                             .padding(.vertical, 2)
                             .background(Theme.leaf.opacity(0.18), in: Capsule())

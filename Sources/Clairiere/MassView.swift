@@ -38,7 +38,7 @@ struct MassView: View {
                     .foregroundStyle(group.strata.tint)
                 Spacer()
                 Text(Format.mem(group.footprint))
-                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .font(.system(size: 13, weight: .medium, design: .default))
                     .foregroundStyle(Theme.text)
             }
             GeometryReader { geo in

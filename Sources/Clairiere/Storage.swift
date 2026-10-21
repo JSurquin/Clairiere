@@ -422,7 +422,7 @@ struct StorageView: View {
             }
             Spacer()
             Text(Format.mem(batch.bytes))
-                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .font(.system(size: 14, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
             ActionButton(title: "Retirer", tint: Theme.leaf, prominent: true, helpText: "Retire ce dossier de ce Mac. Il reste dans iCloud.") {
                 disk.askEvict([batch])
@@ -446,7 +446,7 @@ struct StorageView: View {
                     .foregroundStyle(Theme.muted)
             }
             Text(value)
-                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .font(.system(size: 14, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

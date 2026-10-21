@@ -30,7 +30,7 @@ struct LightenSheet: View {
                         .foregroundStyle(Theme.text)
                     Spacer()
                     Text(store.lightenPicked.isEmpty ? "Aucune app cochée" : "Jusqu’à \(Format.mem(selectedBytes))")
-                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .font(.system(size: 12, weight: .medium, design: .default))
                         .foregroundStyle(Theme.leaf)
                 }
                 if store.idleHeavy.isEmpty {
@@ -136,7 +136,7 @@ struct LightenSheet: View {
             }
             Spacer()
             Text(Format.mem(group.footprint))
-                .font(.system(size: 13, weight: .medium, design: .rounded))
+                .font(.system(size: 13, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
         }
         .padding(8)

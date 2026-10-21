@@ -64,10 +64,10 @@ struct DriftView: View {
                     Spacer(minLength: 8)
                     VStack(alignment: .trailing, spacing: 4) {
                         Text(Format.signedMem(group.driftPerMinute))
-                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                            .font(.system(size: 14, weight: .medium, design: .default))
                             .foregroundStyle(tint)
                         Text(Format.mem(group.footprint))
-                            .font(.system(size: 11, design: .rounded))
+                            .font(.system(size: 11, design: .default))
                             .foregroundStyle(Theme.muted)
                     }
                 }

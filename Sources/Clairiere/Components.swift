@@ -135,7 +135,7 @@ struct PressureOrb: View {
                 .animation(.easeInOut(duration: 0.45), value: ratio)
             VStack(spacing: 0) {
                 Text("\(Int((min(ratio, 1) * 100).rounded()))")
-                    .font(.system(size: 26, weight: .medium, design: .rounded))
+                    .font(.system(size: 26, weight: .medium, design: .default))
                     .foregroundStyle(Theme.text)
                 Text("%")
                     .font(.system(size: 10, weight: .semibold))

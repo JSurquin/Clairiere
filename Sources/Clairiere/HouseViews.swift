@@ -105,7 +105,7 @@ struct HomeView: View {
                     Spacer()
                 }
                 Text(value)
-                    .font(.system(size: 26, weight: .medium, design: .rounded))
+                    .font(.system(size: 26, weight: .medium, design: .default))
                     .foregroundStyle(Theme.text)
                 Text(detail)
                     .font(.system(size: 12))
@@ -232,7 +232,7 @@ struct CleanupView: View {
                         }
                         Spacer(minLength: 8)
                         Text(Format.mem(part.bytes))
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
+                            .font(.system(size: 12, weight: .medium, design: .default))
                             .foregroundStyle(Theme.text)
                     }
                 }
@@ -383,7 +383,7 @@ struct AppsView: View {
             }
             Spacer()
             Text(Format.mem(app.bytes))
-                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .font(.system(size: 14, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
         }
         .padding(10)
@@ -675,7 +675,7 @@ struct HelpSheet: View {
             ForEach(rows, id: \.0) { row in
                 HStack(alignment: .firstTextBaseline) {
                     Text(row.0)
-                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .font(.system(size: 13, weight: .semibold, design: .default))
                         .foregroundStyle(Theme.leaf)
                         .frame(width: 130, alignment: .leading)
                     Text(row.1)
@@ -722,7 +722,7 @@ struct CheckLine: View {
                 Spacer()
             }
             Text(meta)
-                .font(.system(size: 13, weight: .medium, design: .rounded))
+                .font(.system(size: 13, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
             ActionButton(title: actionTitle, tint: Theme.leaf, prominent: true, helpText: detail, action: action)
         }

@@ -71,7 +71,7 @@ struct HeroView: View {
                             .foregroundStyle(Theme.muted)
                     }
                     Text(Format.mem(piece.bytes))
-                        .font(.system(size: 13, weight: .medium, design: .rounded))
+                        .font(.system(size: 13, weight: .medium, design: .default))
                         .foregroundStyle(Theme.text)
                         .minimumScaleFactor(0.7)
                         .lineLimit(1)
