@@ -2,6 +2,52 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+sign_app() {
+  local app="$1"
+  if [[ -n "${CI:-}" ]]; then
+    codesign --force --sign - "$app"
+    return
+  fi
+  if ensure_signing_identity && codesign --force --sign "Clairiere Local" --identifier local.jimmy.clairiere "$app"; then
+    return
+  fi
+  codesign --force --sign - "$app"
+  echo "signature temporaire : macOS peut redemander l’accès aux dossiers à la prochaine compilation" >&2
+}
+
+ensure_signing_identity() {
+  local name="Clairiere Local"
+  security find-certificate -c "$name" >/dev/null 2>&1 && return 0
+  local work keychain
+  work="$(mktemp -d)"
+  keychain="$HOME/Library/Keychains/login.keychain-db"
+  [[ -f "$keychain" ]] || keychain="$HOME/Library/Keychains/login.keychain"
+  cat > "$work/cert.cfg" <<EOF
+[req]
+distinguished_name = req_dn
+x509_extensions = codesign
+prompt = no
+[req_dn]
+CN = $name
+[codesign]
+basicConstraints = critical,CA:false
+keyUsage = critical,digitalSignature
+extendedKeyUsage = critical,codeSigning
+EOF
+  if openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
+      -config "$work/cert.cfg" -keyout "$work/key.pem" -out "$work/cert.pem" >/dev/null 2>&1 \
+    && openssl pkcs12 -export -legacy -out "$work/cert.p12" \
+      -inkey "$work/key.pem" -in "$work/cert.pem" -name "$name" -passout pass:clairiere >/dev/null 2>&1 \
+    && security import "$work/cert.p12" -k "$keychain" -P clairiere -A \
+      -T /usr/bin/codesign -T /usr/bin/security >/dev/null 2>&1
+  then
+    rm -rf "$work"
+    return 0
+  fi
+  rm -rf "$work"
+  return 1
+}
+
 swiftc -framework AppKit -framework Foundation -o /tmp/clairiere-make-icon Scripts/MakeIcon.swift
 /tmp/clairiere-make-icon "$PWD/AppIcon.png"
 
@@ -41,5 +87,6 @@ cp "$BIN" "$APP/Contents/MacOS/Clairiere"
 cp Info.plist "$APP/Contents/Info.plist"
 cp AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 chmod +x "$APP/Contents/MacOS/Clairiere"
-codesign --force --sign - "$APP"
+xattr -cr "$APP" 2>/dev/null || true
+sign_app "$APP"
 echo "built $APP"

@@ -2,6 +2,13 @@ import CryptoKit
 import Darwin
 import Foundation
 
+struct JunkPart: Identifiable, Sendable, Hashable {
+    var path: String
+    var name: String
+    var bytes: UInt64
+    var id: String { path }
+}
+
 struct JunkItem: Identifiable, Sendable, Hashable {
     var id: String
     var title: String
@@ -10,6 +17,7 @@ struct JunkItem: Identifiable, Sendable, Hashable {
     var paths: [String]
     var suggested: Bool
     var permanent: Bool
+    var parts: [JunkPart] = []
 }
 
 struct FileItem: Identifiable, Sendable, Hashable {
@@ -102,15 +110,17 @@ enum HouseScan {
         ) { items.append(item) }
 
         let orphans = orphanPreferences(home: home)
-        if !orphans.isEmpty {
+        let orphanParts = sizedParts(orphans)
+        if !orphanParts.isEmpty {
             items.append(JunkItem(
                 id: "orphans",
                 title: "Préférences sans app",
                 detail: "Réglages d’apps qui ne sont plus installées. Rien ne les recrée.",
-                bytes: orphans.reduce(0) { $0 + sizeOf($1) },
-                paths: orphans.map(\.path),
+                bytes: orphanParts.reduce(0) { $0 + $1.bytes },
+                paths: orphanParts.map(\.path),
                 suggested: false,
-                permanent: false
+                permanent: false,
+                parts: orphanParts.count > 1 ? orphanParts : []
             ))
         }
 
@@ -477,7 +487,8 @@ enum HouseScan {
                 bytes: bytes,
                 paths: [url.path],
                 suggested: false,
-                permanent: false
+                permanent: false,
+                parts: inside(url)
             )
         }
     }
@@ -506,7 +517,8 @@ enum HouseScan {
                 bytes: bytes,
                 paths: [url.path],
                 suggested: false,
-                permanent: false
+                permanent: false,
+                parts: history ? [] : inside(url)
             )
         }
     }
@@ -556,11 +568,50 @@ enum HouseScan {
     }
 
     private static func folderItem(id: String, title: String, detail: String, urls: [URL], suggested: Bool, permanent: Bool) -> JunkItem? {
-        let existing = urls.filter { FileManager.default.fileExists(atPath: $0.path) }
-        guard !existing.isEmpty else { return nil }
-        let bytes = existing.reduce(UInt64(0)) { $0 + sizeOf($1) }
-        guard bytes > 0 else { return nil }
-        return JunkItem(id: id, title: title, detail: detail, bytes: bytes, paths: existing.map(\.path), suggested: suggested, permanent: permanent)
+        let parts = sizedParts(urls)
+        guard !parts.isEmpty else { return nil }
+        let bytes = parts.reduce(UInt64(0)) { $0 + $1.bytes }
+        return JunkItem(
+            id: id,
+            title: title,
+            detail: detail,
+            bytes: bytes,
+            paths: parts.map(\.path),
+            suggested: suggested,
+            permanent: permanent,
+            parts: parts.count > 1 ? parts : []
+        )
+    }
+
+    /// Dossiers ou fichiers à l’intérieur, du plus lourd au plus léger.
+    private static func inside(_ url: URL) -> [JunkPart] {
+        var isDir: ObjCBool = false
+        guard FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir), isDir.boolValue else { return [] }
+        let parts = sizedParts(children(url))
+        return parts.count > 1 ? parts : []
+    }
+
+    private static func sizedParts(_ urls: [URL]) -> [JunkPart] {
+        urls.compactMap { url in
+            let bytes = sizeOf(url)
+            guard bytes > 0 else { return nil }
+            return JunkPart(path: url.path, name: readableName(url.lastPathComponent), bytes: bytes)
+        }
+        .sorted { $0.bytes > $1.bytes }
+    }
+
+    private static func readableName(_ raw: String) -> String {
+        let stem = raw.hasSuffix(".plist") ? String(raw.dropLast(".plist".count)) : raw
+        guard stem.contains(".") else { return stem }
+        let skip: Set<String> = ["com", "org", "net", "io", "co", "app", "me", "client", "helper", "mac", "osx", "desktop", "agent"]
+        let bits = stem.split(separator: ".").map(String.init).filter { bit in
+            !skip.contains(bit.lowercased()) && bit.count > 1
+        }
+        guard let pick = bits.last else { return stem }
+        if pick == pick.lowercased() {
+            return pick.prefix(1).uppercased() + pick.dropFirst()
+        }
+        return pick
     }
 
     private static func children(_ url: URL) -> [URL] {

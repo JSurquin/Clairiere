@@ -34,7 +34,7 @@ struct LightenSheet: View {
                         .foregroundStyle(Theme.leaf)
                 }
                 if store.idleHeavy.isEmpty {
-                    Text("Aucune grosse app n’est peu utilisée. L’app au premier plan est laissée de côté. Attendez quelques secondes si la liste est vide.")
+                    Text("Aucune grosse app n’est peu utilisée pour l’instant. L’app au premier plan n’est jamais proposée. Si la liste est vide, patientez quelques secondes.")
                         .font(.system(size: 13))
                         .foregroundStyle(Theme.muted)
                         .fixedSize(horizontal: false, vertical: true)

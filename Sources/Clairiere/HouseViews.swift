@@ -6,7 +6,7 @@ struct HomeView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Rien ne se lance tout seul. Choisissez une tuile pour voir le détail, puis confirmez avant d’enlever quoi que ce soit.")
+            Text("Rien ne démarre tout seul. Ouvrez une tuile pour voir le détail. Vous confirmez toujours avant qu’on enlève quoi que ce soit.")
                 .font(.system(size: 13))
                 .foregroundStyle(Theme.muted)
                 .fixedSize(horizontal: false, vertical: true)
@@ -26,8 +26,8 @@ struct HomeView: View {
                     title: "Nettoyage",
                     symbol: "sparkles",
                     tint: Theme.leaf,
-                    value: store.cleanup.ready ? Format.mem(store.cleanup.suggestedBytes) : "—",
-                    detail: store.cleanup.ready ? "proposés, ils se recréent" : "ouvrir pour mesurer"
+                    value: store.cleanup.ready ? Format.mem(store.cleanup.suggestedBytes) : "…",
+                    detail: store.cleanup.ready ? "prêts à nettoyer" : "ouvrir pour mesurer"
                 ) { store.show(.cleanup) }
 
                 tile(
@@ -44,7 +44,7 @@ struct HomeView: View {
                     title: "Apps",
                     symbol: "square.grid.2x2",
                     tint: Theme.sky,
-                    value: store.shelf.ready ? "\(store.shelf.apps.count)" : "—",
+                    value: store.shelf.ready ? "\(store.shelf.apps.count)" : "…",
                     detail: store.shelf.ready ? appDetail : "ouvrir pour mesurer"
                 ) { store.show(.apps) }
 
@@ -53,7 +53,7 @@ struct HomeView: View {
                     title: "Démarrage",
                     symbol: "bolt",
                     tint: Theme.gold,
-                    value: store.boot.ready ? "\(store.boot.items.count)" : "—",
+                    value: store.boot.ready ? "\(store.boot.items.count)" : "…",
                     detail: store.boot.ready ? startupDetail : "ouvrir pour mesurer"
                 ) { store.show(.startup) }
 
@@ -129,8 +129,14 @@ struct CleanupView: View {
     @Environment(MemoryStore.self) private var store
 
     private var rows: [JunkItem] {
-        store.cleanup.items.filter {
-            store.query.isEmpty || $0.title.localizedStandardContains(store.query) || $0.detail.localizedStandardContains(store.query)
+        store.cleanup.items.filter { item in
+            guard !store.query.isEmpty else { return true }
+            if item.title.localizedStandardContains(store.query) || item.detail.localizedStandardContains(store.query) {
+                return true
+            }
+            return item.parts.contains {
+                $0.name.localizedStandardContains(store.query) || $0.path.localizedStandardContains(store.query)
+            }
         }
     }
 
@@ -149,17 +155,25 @@ struct CleanupView: View {
                     .disabled(store.cleanup.scanning)
             }
             ForEach(rows) { item in
-                CheckLine(
-                    title: item.title,
-                    detail: item.detail,
-                    meta: Format.mem(item.bytes),
-                    on: store.cleanup.picked.contains(item.id),
-                    focused: store.cursorID == "junk:\(item.id)",
-                    actionTitle: item.permanent ? "Vider" : "Corbeille"
-                ) {
-                    store.cleanup.toggle(item.id)
-                } action: {
-                    store.pending = store.cleanup.pending(for: [item.id])
+                VStack(alignment: .leading, spacing: 0) {
+                    CheckLine(
+                        title: item.title,
+                        detail: item.detail,
+                        meta: Format.mem(item.bytes),
+                        on: store.cleanup.picked.contains(item.id),
+                        focused: store.cursorID == "junk:\(item.id)",
+                        actionTitle: item.permanent ? "Vider" : "Corbeille",
+                        expandable: item.parts.count > 1,
+                        expanded: store.cleanup.openID == item.id,
+                        reveal: { store.cleanup.toggleOpen(item.id) }
+                    ) {
+                        store.cleanup.toggle(item.id)
+                    } action: {
+                        store.pending = store.cleanup.pending(for: [item.id])
+                    }
+                    if showsParts(item) {
+                        cleanupParts(item)
+                    }
                 }
                 .id("junk:\(item.id)")
             }
@@ -175,6 +189,61 @@ struct CleanupView: View {
             }
         }
         .onAppear { store.cleanup.prepare() }
+    }
+
+    private func showsParts(_ item: JunkItem) -> Bool {
+        if store.cleanup.openID == item.id { return true }
+        guard !store.query.isEmpty else { return false }
+        let titleHit = item.title.localizedStandardContains(store.query) || item.detail.localizedStandardContains(store.query)
+        if titleHit { return false }
+        return item.parts.contains {
+            $0.name.localizedStandardContains(store.query) || $0.path.localizedStandardContains(store.query)
+        }
+    }
+
+    private func visibleParts(_ item: JunkItem) -> [JunkPart] {
+        guard !store.query.isEmpty else { return item.parts }
+        let hits = item.parts.filter {
+            $0.name.localizedStandardContains(store.query) || $0.path.localizedStandardContains(store.query)
+        }
+        return hits.isEmpty ? item.parts : hits
+    }
+
+    private func cleanupParts(_ item: JunkItem) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Du plus lourd au plus léger.")
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(Theme.muted)
+            ForEach(visibleParts(item)) { part in
+                Button {
+                    NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: part.path)])
+                } label: {
+                    HStack(alignment: .firstTextBaseline, spacing: 10) {
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(part.name)
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundStyle(Theme.text)
+                                .lineLimit(1)
+                            Text(HouseScan.pretty(part.path))
+                                .font(.system(size: 11))
+                                .foregroundStyle(Theme.muted)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                        }
+                        Spacer(minLength: 8)
+                        Text(Format.mem(part.bytes))
+                            .font(.system(size: 12, weight: .medium, design: .rounded))
+                            .foregroundStyle(Theme.text)
+                    }
+                }
+                .buttonStyle(.plain)
+                .help("Montrer dans le Finder")
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .padding(.leading, 28)
+        .background(Theme.card, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 }
 
@@ -435,7 +504,7 @@ struct StartupView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Ce n’est pas un antivirus. Clairière montre les agents, les ouvertures de session, les apps encore en quarantaine, et quelques emplacements souvent utilisés par des pubs.")
+            Text("Clairière n’est pas un antivirus. Elle liste ce qui s’ouvre tout seul : agents, ouvertures de session, apps mises en quarantaine, et quelques emplacements que les pubs utilisent souvent.")
                 .font(.system(size: 13))
                 .foregroundStyle(Theme.muted)
                 .fixedSize(horizontal: false, vertical: true)
@@ -511,7 +580,7 @@ struct StartupView: View {
                 .font(.system(size: 18, weight: .medium, design: .serif))
                 .foregroundStyle(Theme.text)
             if apps.isEmpty {
-                Text("Aucune app de votre dossier Applications n’est encore marquée comme téléchargée et non ouverte.")
+                Text("Aucune app du dossier Applications n’a été téléchargée sans être ouverte.")
                     .font(.system(size: 13))
                     .foregroundStyle(Theme.muted)
             } else {
@@ -537,7 +606,7 @@ struct StartupView: View {
             Text("Entretien")
                 .font(.system(size: 18, weight: .medium, design: .serif))
                 .foregroundStyle(Theme.text)
-            Text("Vider le cache DNS recharge les adresses des sites. Les instantanés Time Machine sont listés, jamais supprimés sans confirmation. Réparer les permissions ne sert plus : le bouton n’existe pas.")
+            Text("Vider le cache DNS oublie les adresses de sites déjà vues. Les instantanés Time Machine sont listés, et jamais supprimés sans confirmation. Clairière ne répare pas les permissions.")
                 .font(.system(size: 13))
                 .foregroundStyle(Theme.muted)
                 .fixedSize(horizontal: false, vertical: true)
@@ -628,6 +697,9 @@ struct CheckLine: View {
     var on: Bool
     var focused: Bool
     var actionTitle: String
+    var expandable = false
+    var expanded = false
+    var reveal: () -> Void = {}
     var toggle: () -> Void
     var action: () -> Void
 
@@ -638,17 +710,17 @@ struct CheckLine: View {
                     .foregroundStyle(on ? Theme.leaf : Theme.muted)
             }
             .buttonStyle(.plain)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(Theme.text)
-                    .lineLimit(1)
-                Text(detail)
-                    .font(.system(size: 12))
-                    .foregroundStyle(Theme.muted)
-                    .lineLimit(2)
+            if expandable {
+                Button(action: reveal) {
+                    lineLabel
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(.plain)
+                .help(expanded ? "Replier" : "Voir ce que ça contient")
+            } else {
+                lineLabel
+                Spacer()
             }
-            Spacer()
             Text(meta)
                 .font(.system(size: 13, weight: .medium, design: .rounded))
                 .foregroundStyle(Theme.text)
@@ -660,5 +732,25 @@ struct CheckLine: View {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .stroke(focused ? Theme.leaf : Color.clear, lineWidth: 1.5)
         )
+    }
+
+    private var lineLabel: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            HStack(spacing: 6) {
+                Text(title)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Theme.text)
+                    .lineLimit(1)
+                if expandable {
+                    Image(systemName: expanded ? "chevron.down" : "chevron.right")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(Theme.muted)
+                }
+            }
+            Text(detail)
+                .font(.system(size: 12))
+                .foregroundStyle(Theme.muted)
+                .lineLimit(2)
+        }
     }
 }

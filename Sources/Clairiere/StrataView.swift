@@ -52,7 +52,7 @@ struct StrataView: View {
     }
 
     private var footer: some View {
-        Text("Total affiché : \(Format.mem(store.visibleGroups.reduce(0) { $0 + $1.footprint })). Ce total peut dépasser la mémoire du Mac, parce qu’une partie est compressée. La barre du haut décrit tout l’ordinateur.")
+        Text("Total affiché : \(Format.mem(store.visibleGroups.reduce(0) { $0 + $1.footprint })). Il peut dépasser la mémoire du Mac, car macOS compresse une partie. La barre du haut parle de tout le Mac.")
             .font(.system(size: 12))
             .foregroundStyle(Theme.muted)
             .fixedSize(horizontal: false, vertical: true)

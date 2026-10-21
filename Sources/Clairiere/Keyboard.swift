@@ -292,6 +292,10 @@ extension MemoryStore {
             showLighten = false
             return true
         }
+        if lens == .cleanup, cleanup.openID != nil {
+            cleanup.openID = nil
+            return true
+        }
         if selectedID != nil {
             selectedID = nil
             return true
@@ -382,6 +386,13 @@ extension MemoryStore {
             show(.advisor)
         default:
             break
+        }
+        if id.hasPrefix("junk:") {
+            let itemID = String(id.dropFirst(5))
+            if cleanup.items.first(where: { $0.id == itemID })?.parts.count ?? 0 > 1 {
+                cleanup.toggleOpen(itemID)
+            }
+            return
         }
         if let group = groups.first(where: { $0.id == id }) {
             selectedID = group.id

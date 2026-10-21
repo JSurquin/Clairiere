@@ -303,7 +303,7 @@ struct StorageView: View {
                 disk.confirmEvict = false
             }
         } message: {
-            Text("\(Format.mem(disk.pendingBytes)) seront retirés de ce Mac seulement. Ils restent dans iCloud et se retéléchargent si vous les ouvrez.")
+            Text("\(Format.mem(disk.pendingBytes)) sortiront de ce Mac, et rien d’autre. Ils restent dans iCloud, et reviennent si vous les ouvrez.")
         }
     }
 

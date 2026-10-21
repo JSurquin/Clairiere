@@ -4,61 +4,71 @@
 [![Licence MIT](https://img.shields.io/badge/licence-MIT-brightgreen?style=for-the-badge)](LICENSE)
 [![macOS 14 ou plus](https://img.shields.io/badge/macOS-14%2B-111210?style=for-the-badge)](https://github.com/JSurquin/Clairiere/releases)
 
-Clairière te montre quelle app tient la mémoire, et ce qui encombre le disque. Fermer Chrome rend de la mémoire. Ça ne vide pas le disque. Un vieux `.dmg` dans Téléchargements, c’est l’inverse.
+Clairière répond à deux questions : qu’est-ce qui prend la mémoire de mon Mac, et qu’est-ce qui remplit son disque. Ce sont deux problèmes différents. Fermer une app libère de la mémoire, mais ça ne fait pas de place sur le disque. Pour le disque, il faut retirer des fichiers.
 
-Tu vois la liste, tu coches, tu confirmes. Ensuite ça va à la Corbeille, et tu peux le reprendre.
+L’app te montre les deux, puis te laisse choisir quoi enlever. Rien ne part sans que tu l’aies coché et confirmé. Les fichiers vont à la Corbeille, donc tu peux encore les reprendre.
 
-[Télécharger Clairière](https://github.com/JSurquin/Clairiere/releases) pour un Mac Apple silicon, macOS 14 ou plus récent. Le code est sous [licence MIT](LICENSE).
+Elle fonctionne sur les Mac Apple silicon, avec macOS 14 ou plus récent. Le code est sous [licence MIT](LICENSE).
 
-## À l’écran
+[Télécharger la dernière version](https://github.com/JSurquin/Clairiere/releases)
 
-L’accueil donne les gros chiffres. Le reste attend que tu ouvres l’onglet.
+## Captures
+
+L’accueil résume les chiffres sans lancer de gros calcul.
 
 <img src="docs/screenshots/accueil.png" alt="Accueil de Clairière" width="860">
 
-Chaque app a sa ligne. Fermer lui demande de partir. Forcer l’enlève, icône de la barre comprise.
+Chaque app a sa ligne. Fermer lui demande de s’arrêter. Forcer la ferme tout de suite, et enlève aussi son icône dans la barre de menus.
 
 <img src="docs/screenshots/memoire.png" alt="Onglet Mémoire" width="860">
 
-Caches fait 7 Go chez moi. La petite flèche ouvre la liste des dossiers, du plus lourd au plus léger.
+Dans Nettoyage, une ligne comme Caches peut peser plusieurs gigaoctets. Un clic sur la flèche montre les dossiers qu’elle contient, du plus lourd au plus léger.
 
 <img src="docs/screenshots/nettoyage.png" alt="Onglet Nettoyage" width="860">
 
-Le disque, et les fichiers iCloud qui ont encore une copie sur ce Mac.
+Stockage affiche la place libre sur le disque, et les fichiers iCloud qui ont encore une copie sur le Mac.
 
 <img src="docs/screenshots/stockage.png" alt="Onglet Stockage" width="860">
 
-## Dedans
+## Les onglets
 
-La mémoire est rangée en navigateurs, apps ouvertes, arrière-plan et macOS. Tu peux aussi trier par taille, ou voir ce qui augmente.
+| Onglet | À quoi il sert |
+| --- | --- |
+| Accueil | Un résumé. Il ne lance aucun calcul lourd tout seul. |
+| Mémoire | Les apps qui tournent, avec ce qu’elles utilisent. |
+| Nettoyage | Les caches, les journaux et la corbeille du Mac. |
+| Stockage | La place sur le disque, et les fichiers iCloud à retirer de ce Mac. |
+| Apps | La taille de chaque app, les fichiers qu’elle laisse derrière elle, et les mises à jour. |
+| Démarrage | Ce qui s’ouvre avec le Mac. On peut le couper, puis le remettre. |
+| IA | Les vieux fichiers, triés avec un petit modèle installé sur le Mac. |
 
-Le nettoyage propose les caches, les journaux et la corbeille. Les images disque dans Téléchargements restent décochées. Tu les as peut-être gardées.
+## Ce qui ne part jamais sans ton accord
 
-Dans Stockage, retirer un fichier iCloud n’enlève que la copie locale. Il reste dans iCloud et revient quand tu l’ouvres.
+Chaque suppression passe par une liste, puis une confirmation. La plupart des fichiers vont à la Corbeille. Vider la corbeille du Mac et supprimer un instantané Time Machine sont définitifs, et l’app le dit avant de les faire.
 
-Apps donne la taille, les fichiers laissés par une app désinstallée, et une remise à zéro des préférences. Démarrage liste ce qui s’ouvre avec le Mac. Tu peux le couper, puis le remettre.
+Retirer un fichier iCloud n’enlève que sa copie sur ce Mac. Le fichier reste dans iCloud et revient quand tu l’ouvres.
 
-L’onglet IA regarde les fichiers pas ouverts depuis trois mois. Il se sert du nom, de la date et de la taille. Il n’ouvre pas le fichier. Si tu lances une analyse, [Ollama](https://ollama.com) s’installe tout seul, tourne sur le Mac, puis se ferme.
+Le Finder, le Dock et les composants de macOS sont marqués « laisser ouvert ». Clairière ne les touche pas.
 
-L’accueil ne lance pas ces lectures tout seul. Le thème sombre est celui du départ. Clair est juste en dessous du nom.
+Clairière n’est pas un antivirus, et elle ne répare pas les permissions.
 
-Vider la corbeille du Mac, ou supprimer un instantané Time Machine, est marqué comme définitif. Finder et le Dock restent sur « laisser ouvert ».
+## L’onglet IA
 
-Ce n’est pas un antivirus. Les permissions restent celles de macOS.
+L’onglet IA regarde les fichiers qui n’ont pas été ouverts depuis plus de trois mois. Il lit le nom, la date et la taille, mais n’ouvre jamais le contenu.
+
+Quand tu lances l’analyse, Clairière installe [Ollama](https://ollama.com) s’il manque, charge un petit modèle, puis le décharge de la mémoire. Si Ollama tournait déjà avant, Clairière le laisse tranquille. Si c’est Clairière qui l’a lancé, elle le referme ensuite.
 
 ## Installer
 
-Le zip s’appelle `Clairiere-macOS.zip`, sur [Releases](https://github.com/JSurquin/Clairiere/releases).
+1. Télécharge `Clairiere-macOS.zip` depuis [Releases](https://github.com/JSurquin/Clairiere/releases).
+2. Ouvre l’archive, puis glisse Clairière dans le dossier Applications.
+3. Au premier lancement, fais un clic droit sur l’app, puis choisis Ouvrir.
 
-1. Ouvre l’archive.
-2. Glisse Clairière dans Applications.
-3. Au premier lancement, clic droit sur l’app, puis Ouvrir.
-
-Apple n’a pas notarié cette build. macOS pose la question une fois.
+Cette version n’est pas notariée par Apple, donc macOS demande cette confirmation une seule fois.
 
 ## Compiler
 
-Il te faut macOS 14 et Swift 6. Xcode peut rester fermé.
+Il faut macOS 14 et Swift 6. Xcode n’est pas nécessaire.
 
 ```bash
 git clone https://github.com/JSurquin/Clairiere.git
@@ -67,13 +77,13 @@ cd Clairiere
 open dist/Clairiere.app
 ```
 
-`./build.sh` compile l’app et la pose dans `dist/`.
+Le script compile l’app et la place dans `dist/`.
 
 ## Publier une version
 
-Dans l’onglet [Actions](https://github.com/JSurquin/Clairiere/actions), ouvre **Release**, puis **Run workflow**, et mets un numéro du genre `1.2.3`.
+Dans l’onglet [Actions](https://github.com/JSurquin/Clairiere/actions), lance le workflow **Release** avec un numéro comme `1.2.3`. Il compile l’app et crée la release sur GitHub.
 
-Tu peux aussi pousser le tag toi-même.
+Tu peux aussi pousser un tag toi-même :
 
 ```bash
 git tag v1.2.3
@@ -89,7 +99,7 @@ git push origin v1.2.3
 | ↑ ↓ | Ligne précédente ou suivante |
 | Entrée | Ouvre le détail |
 | Espace | Coche ou décoche |
-| ⌘A / ⌘⇧A | Tout cocher / tout décocher |
+| ⌘A / ⌘⇧A | Tout cocher, tout décocher |
 | ⌘Retour | Action de la ligne |
 | ⌘⇧Retour | Forcer la fermeture |
 | ⌘O | Montrer dans le Finder |
@@ -98,4 +108,4 @@ git push origin v1.2.3
 
 ## Licence
 
-[MIT](LICENSE). Tu peux t’en servir, le modifier, le redistribuer.
+Le code est sous [licence MIT](LICENSE). Tu peux l’utiliser, le modifier et le redistribuer, y compris dans un projet payant.

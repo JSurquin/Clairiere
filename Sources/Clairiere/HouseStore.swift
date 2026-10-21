@@ -9,6 +9,7 @@ final class CleanupStore {
     var scanning = false
     var ready = false
     var message = "Lecture des caches, journaux et corbeilles."
+    var openID: String?
     @ObservationIgnored private var prepared = false
     @ObservationIgnored private var seeded = false
 
@@ -35,7 +36,12 @@ final class CleanupStore {
         }
         scanning = false
         ready = true
-        message = found.isEmpty ? "Rien à montrer pour le moment." : "Cochez, puis mettez à la Corbeille. Les cases déjà cochées se recréent toutes seules."
+        if let openID, !found.contains(where: { $0.id == openID }) { self.openID = nil }
+        message = found.isEmpty ? "Rien à montrer pour le moment." : "Cliquez sur une ligne pour voir ce qu’elle contient. Cochez, puis mettez à la Corbeille."
+    }
+
+    func toggleOpen(_ id: String) {
+        openID = openID == id ? nil : id
     }
 
     func toggle(_ id: String) {

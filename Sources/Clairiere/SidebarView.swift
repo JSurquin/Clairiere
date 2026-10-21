@@ -27,7 +27,7 @@ struct SidebarView: View {
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(store.band.tint)
                 }
-                Text(store.snapshot.physical == 0 ? "—" : Format.mem(store.snapshot.used))
+                Text(store.snapshot.physical == 0 ? "…" : Format.mem(store.snapshot.used))
                     .font(.system(size: 28, weight: .medium, design: .rounded))
                     .foregroundStyle(Theme.text)
                 Text(store.snapshot.physical == 0 ? "lecture…" : "utilisés sur \(Format.mem(store.snapshot.physical))")
@@ -84,7 +84,7 @@ struct SidebarView: View {
                     .font(.system(size: 11))
                     .foregroundStyle(Theme.muted)
                     .fixedSize(horizontal: false, vertical: true)
-                Text("La mémoire et le disque sont deux choses différentes.")
+                Text("La mémoire fait tourner les apps. Le disque garde vos fichiers.")
                     .font(.system(size: 11))
                     .foregroundStyle(Theme.muted.opacity(0.8))
             }
