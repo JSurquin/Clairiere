@@ -4,9 +4,11 @@
 [![Licence MIT](https://img.shields.io/badge/licence-MIT-brightgreen?style=for-the-badge)](LICENSE)
 [![macOS 14 ou plus](https://img.shields.io/badge/macOS-14%2B-111210?style=for-the-badge)](https://github.com/JSurquin/Clairiere/releases)
 
-Clairière répond à deux questions : qu’est-ce qui prend la mémoire de mon Mac, et qu’est-ce qui remplit son disque. Ce sont deux problèmes différents. Fermer une app libère de la mémoire, mais ça ne fait pas de place sur le disque. Pour le disque, il faut retirer des fichiers.
+Français · [English](README.en.md)
 
-L’app te montre les deux, puis te laisse choisir quoi enlever. Rien ne part sans que tu l’aies coché et confirmé. Les fichiers vont à la Corbeille, donc tu peux encore les reprendre.
+Clairière répond à deux questions : qu’est-ce qui prend la mémoire de votre Mac, et qu’est-ce qui remplit son disque. Ce sont deux problèmes différents. Fermer une app libère de la mémoire, mais ne fait pas de place sur le disque. Pour récupérer de la place, il faut retirer des fichiers.
+
+L’app affiche les deux, puis vous laisse choisir ce qui part. Rien ne part sans que vous l’ayez coché et confirmé. Les fichiers vont à la Corbeille, donc vous pouvez encore les reprendre.
 
 Elle fonctionne sur les Mac Apple silicon, avec macOS 14 ou plus récent. Le code est sous [licence MIT](LICENSE).
 
@@ -14,7 +16,7 @@ Elle fonctionne sur les Mac Apple silicon, avec macOS 14 ou plus récent. Le cod
 
 ## Captures
 
-L’accueil résume les chiffres sans lancer de gros calcul.
+L’accueil résume les chiffres sans lancer de calcul lourd.
 
 <img src="docs/screenshots/accueil.png" alt="Accueil de Clairière" width="860">
 
@@ -34,19 +36,19 @@ Stockage affiche la place libre sur le disque, et les fichiers iCloud qui ont en
 
 | Onglet | À quoi il sert |
 | --- | --- |
-| Accueil | Un résumé. Il ne lance aucun calcul lourd tout seul. |
+| Accueil | Un résumé. Il ne lance aucun calcul lourd seul. |
 | Mémoire | Les apps qui tournent, avec ce qu’elles utilisent. |
 | Nettoyage | Les caches, les journaux et la corbeille du Mac. |
 | Stockage | La place sur le disque, et les fichiers iCloud à retirer de ce Mac. |
 | Apps | La taille de chaque app, les fichiers qu’elle laisse derrière elle, et les mises à jour. |
-| Démarrage | Ce qui s’ouvre avec le Mac. On peut le couper, puis le remettre. |
+| Démarrage | Ce qui s’ouvre avec le Mac. Vous pouvez le couper, puis le remettre. |
 | IA | Les vieux fichiers, triés avec un petit modèle installé sur le Mac. |
 
-## Ce qui ne part jamais sans ton accord
+## Ce qui ne part jamais sans votre accord
 
-Chaque suppression passe par une liste, puis une confirmation. La plupart des fichiers vont à la Corbeille. Vider la corbeille du Mac et supprimer un instantané Time Machine sont définitifs, et l’app le dit avant de les faire.
+Chaque suppression passe par une liste, puis une confirmation. La plupart des fichiers vont à la Corbeille. Vider la corbeille du Mac et supprimer un instantané Time Machine sont définitifs, et l’app le signale avant de les faire.
 
-Retirer un fichier iCloud n’enlève que sa copie sur ce Mac. Le fichier reste dans iCloud et revient quand tu l’ouvres.
+Retirer un fichier iCloud n’enlève que sa copie sur ce Mac. Le fichier reste dans iCloud et revient quand vous l’ouvrez.
 
 Le Finder, le Dock et les composants de macOS sont marqués « laisser ouvert ». Clairière ne les touche pas.
 
@@ -54,15 +56,15 @@ Clairière n’est pas un antivirus, et elle ne répare pas les permissions.
 
 ## L’onglet IA
 
-L’onglet IA regarde les fichiers qui n’ont pas été ouverts depuis plus de trois mois. Il lit le nom, la date et la taille, mais n’ouvre jamais le contenu.
+L’onglet IA regarde les fichiers qui n’ont pas été ouverts depuis trois mois. Il lit le nom, la date et la taille, sans ouvrir le contenu.
 
-Quand tu lances l’analyse, Clairière installe [Ollama](https://ollama.com) s’il manque, charge un petit modèle, puis le décharge de la mémoire. Si Ollama tournait déjà avant, Clairière le laisse tranquille. Si c’est Clairière qui l’a lancé, elle le referme ensuite.
+Quand vous lancez l’analyse, Clairière installe [Ollama](https://ollama.com) s’il manque, charge un petit modèle, puis le décharge de la mémoire. Si Ollama tournait déjà, Clairière le laisse tranquille. Si c’est Clairière qui l’a lancé, elle le referme ensuite.
 
 ## Installer
 
-1. Télécharge `Clairiere-macOS.zip` depuis [Releases](https://github.com/JSurquin/Clairiere/releases).
-2. Ouvre l’archive, puis glisse Clairière dans le dossier Applications.
-3. Au premier lancement, fais un clic droit sur l’app, puis choisis Ouvrir.
+1. Téléchargez `Clairiere-macOS.zip` depuis [Releases](https://github.com/JSurquin/Clairiere/releases).
+2. Ouvrez l’archive, puis glissez Clairière dans le dossier Applications.
+3. Au premier lancement, faites un clic droit sur l’app, puis choisissez Ouvrir.
 
 Cette version n’est pas notariée par Apple, donc macOS demande cette confirmation une seule fois.
 
@@ -81,9 +83,9 @@ Le script compile l’app et la place dans `dist/`.
 
 ## Publier une version
 
-Dans l’onglet [Actions](https://github.com/JSurquin/Clairiere/actions), lance le workflow **Release** avec un numéro comme `1.2.3`. Il compile l’app et crée la release sur GitHub.
+Dans l’onglet [Actions](https://github.com/JSurquin/Clairiere/actions), lancez le workflow **Release** avec un numéro comme `1.2.3`. Il compile l’app et crée la release sur GitHub.
 
-Tu peux aussi pousser un tag toi-même :
+Vous pouvez aussi pousser un tag vous-même :
 
 ```bash
 git tag v1.2.3
@@ -108,4 +110,4 @@ git push origin v1.2.3
 
 ## Licence
 
-Le code est sous [licence MIT](LICENSE). Tu peux l’utiliser, le modifier et le redistribuer, y compris dans un projet payant.
+Le code est sous [licence MIT](LICENSE). Vous pouvez l’utiliser, le modifier et le redistribuer, y compris dans un projet payant.
