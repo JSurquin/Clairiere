@@ -28,7 +28,7 @@ Dans Nettoyage, une ligne comme Caches peut peser plusieurs gigaoctets. Un clic 
 
 <img src="docs/screenshots/nettoyage.png" alt="Onglet Nettoyage" width="860">
 
-Stockage affiche la place libre sur le disque, et les fichiers iCloud qui ont encore une copie sur le Mac.
+Stockage affiche la place libre sur le disque. Plus bas, la liste des fichiers iCloud qui ont encore une copie sur ce Mac.
 
 <img src="docs/screenshots/stockage.png" alt="Onglet Stockage" width="860">
 

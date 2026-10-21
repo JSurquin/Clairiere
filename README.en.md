@@ -28,7 +28,7 @@ In Cleanup, a row such as Caches can weigh several gigabytes. Click the arrow to
 
 <img src="docs/screenshots/nettoyage.png" alt="Cleanup tab" width="860">
 
-Storage shows the free space on the disk, and the iCloud files that still have a copy on the Mac.
+Storage shows the free space on the disk. Below it, the list of iCloud files that still have a copy on this Mac.
 
 <img src="docs/screenshots/stockage.png" alt="Storage tab" width="860">
 
