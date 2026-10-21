@@ -14,7 +14,7 @@ struct HeroView: View {
                             .tracking(1.1)
                             .foregroundStyle(store.band.tint)
                         Text(store.snapshot.physical == 0 ? "Lecture de la mémoire…" : store.band.headline)
-                            .font(.system(size: 26, weight: .medium, design: .serif))
+                            .font(.system(size: 26, weight: .medium, design: .default))
                             .foregroundStyle(Theme.text)
                         Text(store.reading)
                             .font(.system(size: 13))

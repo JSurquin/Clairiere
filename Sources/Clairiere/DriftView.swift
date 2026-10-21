@@ -38,7 +38,7 @@ struct DriftView: View {
     private func driftSection(_ title: String, groups: [AppGroup], tint: Color) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(title)
-                .font(.system(size: 18, weight: .medium, design: .serif))
+                .font(.system(size: 18, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
             ForEach(groups) { group in
                 driftRow(group, tint: tint)

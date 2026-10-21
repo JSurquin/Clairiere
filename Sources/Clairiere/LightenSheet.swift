@@ -10,7 +10,7 @@ struct LightenSheet: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Libérer de la mémoire")
-                        .font(.system(size: 28, weight: .medium, design: .serif))
+                        .font(.system(size: 28, weight: .medium, design: .default))
                         .foregroundStyle(Theme.text)
                     Text("Fermez les apps que vous utilisez très peu. La mémoire se libère tout de suite.")
                         .font(.system(size: 13))
@@ -26,7 +26,7 @@ struct LightenSheet: View {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text("Apps peu utilisées")
-                        .font(.system(size: 16, weight: .medium, design: .serif))
+                        .font(.system(size: 16, weight: .medium, design: .default))
                         .foregroundStyle(Theme.text)
                     Spacer()
                     Text(store.lightenPicked.isEmpty ? "Aucune app cochée" : "Jusqu’à \(Format.mem(selectedBytes))")
@@ -68,7 +68,7 @@ struct LightenSheet: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 Text("Option avancée")
-                    .font(.system(size: 16, weight: .medium, design: .serif))
+                    .font(.system(size: 16, weight: .medium, design: .default))
                     .foregroundStyle(Theme.text)
                 Text(store.nudgeReason)
                     .font(.system(size: 13))

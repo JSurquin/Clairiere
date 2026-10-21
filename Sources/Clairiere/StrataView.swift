@@ -24,7 +24,7 @@ struct StrataView: View {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(strata.title)
-                        .font(.system(size: 18, weight: .medium, design: .serif))
+                        .font(.system(size: 18, weight: .medium, design: .default))
                         .foregroundStyle(Theme.text)
                     Text(strata.detail)
                         .font(.system(size: 12))

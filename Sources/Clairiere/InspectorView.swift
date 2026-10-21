@@ -16,7 +16,7 @@ struct InspectorView: View {
                             .tracking(1)
                             .foregroundStyle(group.strata.tint)
                         Text(group.name)
-                            .font(.system(size: 22, weight: .medium, design: .serif))
+                            .font(.system(size: 22, weight: .medium, design: .default))
                             .foregroundStyle(Theme.text)
                         Text(Format.mem(group.footprint))
                             .font(.system(size: 20, weight: .medium, design: .rounded))

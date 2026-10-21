@@ -33,7 +33,7 @@ struct AppGlyph: View {
                 ZStack {
                     Circle().fill(group.strata.tint.opacity(0.16))
                     Text(String(group.name.prefix(1)).uppercased())
-                        .font(.system(size: size * 0.38, weight: .medium, design: .serif))
+                        .font(.system(size: size * 0.38, weight: .medium, design: .default))
                         .foregroundStyle(group.strata.tint)
                 }
             }

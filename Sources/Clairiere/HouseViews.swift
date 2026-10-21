@@ -100,7 +100,7 @@ struct HomeView: View {
                 HStack {
                     Image(systemName: symbol).foregroundStyle(tint)
                     Text(title)
-                        .font(.system(size: 16, weight: .medium, design: .serif))
+                        .font(.system(size: 16, weight: .medium, design: .default))
                         .foregroundStyle(Theme.text)
                     Spacer()
                 }
@@ -283,7 +283,7 @@ struct FileLists: View {
         }
         return VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(.system(size: 18, weight: .medium, design: .serif))
+                .font(.system(size: 18, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
             Text(detail)
                 .font(.system(size: 12))
@@ -418,7 +418,7 @@ struct AppDetailView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(app.name)
-                .font(.system(size: 26, weight: .medium, design: .serif))
+                .font(.system(size: 26, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
             Text(HouseScan.pretty(app.path))
                 .font(.system(size: 12))
@@ -444,7 +444,7 @@ struct AppDetailView: View {
                     .foregroundStyle(Theme.leaf)
             }
             Text("Restes sur ce Mac")
-                .font(.system(size: 16, weight: .medium, design: .serif))
+                .font(.system(size: 16, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
             if store.shelf.leftovers.isEmpty {
                 Text("Aucun reste évident à côté de l’app.")
@@ -577,7 +577,7 @@ struct StartupView: View {
         let apps = store.shelf.apps.filter(\.quarantined)
         return VStack(alignment: .leading, spacing: 8) {
             Text("Apps encore en quarantaine")
-                .font(.system(size: 18, weight: .medium, design: .serif))
+                .font(.system(size: 18, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
             if apps.isEmpty {
                 Text("Aucune app du dossier Applications n’a été téléchargée sans être ouverte.")
@@ -604,7 +604,7 @@ struct StartupView: View {
     private var maintenance: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Entretien")
-                .font(.system(size: 18, weight: .medium, design: .serif))
+                .font(.system(size: 18, weight: .medium, design: .default))
                 .foregroundStyle(Theme.text)
             Text("Vider le cache DNS oublie les adresses de sites déjà vues. Les instantanés Time Machine sont listés, et jamais supprimés sans confirmation. Clairière ne répare pas les permissions.")
                 .font(.system(size: 13))
@@ -661,7 +661,7 @@ struct HelpSheet: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("Raccourcis")
-                    .font(.system(size: 28, weight: .medium, design: .serif))
+                    .font(.system(size: 28, weight: .medium, design: .default))
                     .foregroundStyle(Theme.text)
                 Spacer()
                 Button("Fermer", action: close)

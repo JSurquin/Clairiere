@@ -140,7 +140,7 @@ struct RootView: View {
         return HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(store.lens.title)
-                    .font(.system(size: 22, weight: .medium, design: .serif))
+                    .font(.system(size: 22, weight: .medium, design: .default))
                     .foregroundStyle(Theme.text)
                 Text(store.lens.subtitle)
                     .font(.system(size: 12))

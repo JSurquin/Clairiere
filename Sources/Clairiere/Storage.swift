@@ -311,7 +311,7 @@ struct StorageView: View {
         Panel {
             VStack(alignment: .leading, spacing: 12) {
                 Text(disk.volume.name)
-                    .font(.system(size: 22, weight: .medium, design: .serif))
+                    .font(.system(size: 22, weight: .medium, design: .default))
                     .foregroundStyle(Theme.text)
                 Text("Fermer une app libère la mémoire. Retirer un fichier iCloud libère le disque.")
                     .font(.system(size: 13))
@@ -348,7 +348,7 @@ struct StorageView: View {
                 HStack(alignment: .firstTextBaseline) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Fichiers iCloud sur ce Mac")
-                            .font(.system(size: 18, weight: .medium, design: .serif))
+                            .font(.system(size: 18, weight: .medium, design: .default))
                             .foregroundStyle(Theme.text)
                         Text(disk.progress.isEmpty ? disk.message : disk.progress)
                             .font(.system(size: 13))

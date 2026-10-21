@@ -565,7 +565,7 @@ struct AdvisorView: View {
             if !shown.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(title)
-                        .font(.system(size: 18, weight: .medium, design: .serif))
+                        .font(.system(size: 18, weight: .medium, design: .default))
                         .foregroundStyle(Theme.text)
                     ForEach(shown) { item in
                         CheckLine(

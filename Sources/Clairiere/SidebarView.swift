@@ -9,7 +9,7 @@ struct SidebarView: View {
                 Mark()
                 VStack(alignment: .leading, spacing: 1) {
                     Text("Clairière")
-                        .font(.system(size: 20, weight: .medium, design: .serif))
+                        .font(.system(size: 20, weight: .medium, design: .default))
                         .foregroundStyle(Theme.text)
                     Text("mémoire et disque")
                         .font(.system(size: 11))
