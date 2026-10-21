@@ -119,7 +119,7 @@ final class MemoryStore {
         if snapshot.pressureLevel > 1 {
             return "La mémoire est déjà tendue. Cette option attend un moment plus calme."
         }
-        return "Il reste trop peu de marge. Fermer une app peu utilisée libère de la mémoire sans à-coup."
+        return "Il reste peu de marge. Fermer une app peu utilisée libère de la mémoire, sans que le Mac ralentisse."
     }
 
     var visibleGroups: [AppGroup] {
@@ -272,7 +272,7 @@ final class MemoryStore {
         switch request {
         case .application(let id):
             guard let group = groups.first(where: { $0.id == id }), group.canQuit else {
-                status = "Cette app n'est plus là."
+                status = "Cette app n’est plus là."
                 return
             }
             force(group)

@@ -425,7 +425,7 @@ struct AppDetailView: View {
                 .foregroundStyle(Theme.muted)
                 .textSelection(.enabled)
             if isSelf {
-                Text("C’est Clairière. Elle ne se retire pas d’elle-même.")
+                Text("C’est Clairière. Elle ne peut pas se retirer elle-même.")
                     .font(.system(size: 13))
                     .foregroundStyle(Theme.gold)
             } else if running {
@@ -610,7 +610,7 @@ struct StartupView: View {
                 .font(.system(size: 13))
                 .foregroundStyle(Theme.muted)
                 .fixedSize(horizontal: false, vertical: true)
-            ActionButton(title: "Vider le cache DNS", tint: Theme.sky, prominent: false, helpText: "Demande à macOS d’oublier les adresses récemment résolues.") {
+            ActionButton(title: "Vider le cache DNS", tint: Theme.sky, prominent: false, helpText: "Demande à macOS d’oublier les adresses de sites vues récemment.") {
                 Task { await store.boot.flushDNS() }
             }
             if store.boot.snapshots.isEmpty {
@@ -643,7 +643,7 @@ struct HelpSheet: View {
     private let rows: [(String, String)] = [
         ("⌘1 à ⌘7", "Accueil, Mémoire, Nettoyage, Stockage, Apps, Démarrage, IA"),
         ("⌘F", "Recherche de l’onglet"),
-        ("↑ ↓", "Élément précédent ou suivant"),
+        ("↑ ↓", "Ligne précédente ou suivante"),
         ("Entrée", "Ouvre le détail"),
         ("Espace", "Coche ou décoche"),
         ("⌘A", "Coche toute la liste"),

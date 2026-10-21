@@ -85,7 +85,7 @@ enum Strata: String, CaseIterable, Identifiable {
 
     var detail: String {
         switch self {
-        case .browsers: "La fenêtre, et les onglets qui pèsent souvent plus lourd"
+        case .browsers: "La fenêtre et les onglets, qui pèsent souvent le plus"
         case .windows: "Les fenêtres que vous voyez"
         case .shadow: "Ouvertes sans fenêtre"
         case .system: "Mieux vaut les laisser ouvertes"

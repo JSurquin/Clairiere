@@ -64,7 +64,7 @@ struct InspectorView: View {
             if group.footprint > group.resident {
                 row("Déjà compressée", Format.mem(group.footprint - group.resident))
             }
-            row("Maximum atteint", Format.mem(group.parts.map(\.peak).max() ?? group.footprint))
+            row("Plus haut atteint", Format.mem(group.parts.map(\.peak).max() ?? group.footprint))
             row("Activité", Format.cpu(group.cpu))
             if abs(group.driftPerMinute) > 1 {
                 row("Évolution", Format.signedMem(group.driftPerMinute))
@@ -76,11 +76,11 @@ struct InspectorView: View {
 
     private var parts: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("De quoi c’est fait")
+            Text("Ce qu’elle contient")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundStyle(Theme.text)
             if group.parts.count > 1 {
-                Text("Le total additionne les morceaux. C’est un maximum, pas une facture exacte.")
+                Text("Le total additionne tous les morceaux. C’est une estimation, pas une mesure exacte.")
                     .font(.system(size: 11))
                     .foregroundStyle(Theme.muted)
                     .fixedSize(horizontal: false, vertical: true)
@@ -116,7 +116,7 @@ struct InspectorView: View {
                                 store.quit(group)
                             }
                         } else if part.canSignal {
-                            ActionButton(title: "Fermer ça", tint: Theme.gold, helpText: "Ferme seulement cette partie.") {
+                            ActionButton(title: "Fermer cette partie", tint: Theme.gold, helpText: "Ferme seulement cette partie.") {
                                 store.stopPart(part)
                             }
                             ActionButton(title: "Forcer", tint: Theme.coral, helpText: "Coupe ce processus immédiatement.") {
@@ -145,7 +145,7 @@ struct InspectorView: View {
                     store.forceRequest = .application(group.id)
                 }
             }
-            ActionButton(title: "Finder", tint: Theme.sky, helpText: "Montre l'app ou le binaire") {
+            ActionButton(title: "Finder", tint: Theme.sky, helpText: "Montre l’app dans le Finder") {
                 store.reveal(group)
             }
             ActionButton(title: "Copier", tint: Theme.muted, helpText: "Copie le chemin") {

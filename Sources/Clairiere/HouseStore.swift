@@ -154,7 +154,7 @@ final class AppShelf {
         picked = picked.intersection(Set(found.map(\.id)))
         scanning = false
         ready = true
-        message = found.isEmpty ? "Aucune app dans Applications." : "\(found.count) apps. Retirer montre d’abord les restes."
+        message = found.isEmpty ? "Aucune app dans Applications." : "\(found.count) apps. Avant de retirer une app, Clairière montre ses restes."
         await refreshUpdates()
     }
 

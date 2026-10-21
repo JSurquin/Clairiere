@@ -5,7 +5,7 @@ struct DriftView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("Ici, seulement ce qui grossit ou diminue. Une app lourde mais stable n’apparaît pas.")
+            Text("Seules les apps qui grossissent ou diminuent apparaissent ici. Une app lourde mais stable n’apparaît pas.")
                 .font(.system(size: 13))
                 .foregroundStyle(Theme.muted)
                 .fixedSize(horizontal: false, vertical: true)

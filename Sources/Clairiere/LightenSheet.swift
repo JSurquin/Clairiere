@@ -12,7 +12,7 @@ struct LightenSheet: View {
                     Text("Libérer de la mémoire")
                         .font(.system(size: 28, weight: .medium, design: .serif))
                         .foregroundStyle(Theme.text)
-                    Text("Fermez les apps ouvertes mais peu utilisées. Ça libère de la mémoire tout de suite.")
+                    Text("Fermez les apps que vous utilisez très peu. La mémoire se libère tout de suite.")
                         .font(.system(size: 13))
                         .foregroundStyle(Theme.muted)
                         .fixedSize(horizontal: false, vertical: true)

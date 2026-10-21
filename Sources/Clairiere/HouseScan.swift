@@ -138,7 +138,7 @@ enum HouseScan {
         if let item = folderItem(
             id: "mail-trash",
             title: "Corbeille de Mail",
-            detail: "Messages déjà mis à la corbeille dans Mail. Les vider est définitif.",
+            detail: "Messages supprimés dans Mail. Les vider est définitif.",
             urls: mailTrash,
             suggested: false,
             permanent: true
@@ -376,7 +376,7 @@ enum HouseScan {
         let snapshots = timeMachineSnapshots()
         let warnings = items.filter { $0.warning != nil }.count
         let note = warnings == 0
-            ? "Désactiver un agent le déplace. Réactiver le remet. macOS reste intouchable."
+            ? "Désactiver un agent le déplace dans un autre dossier. Le réactiver le remet à sa place. Les agents de macOS ne bougent pas."
             : "\(warnings) élément\(warnings > 1 ? "s" : "") mérite\(warnings > 1 ? "nt" : "") un coup d’œil. Ce n’est pas un antivirus."
         return BootScanResult(items: items, snapshots: snapshots, note: note)
     }

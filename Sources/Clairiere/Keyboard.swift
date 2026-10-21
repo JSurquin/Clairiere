@@ -502,7 +502,7 @@ extension MemoryStore {
     func pendingCheckedApps() -> HousePending? {
         let chosen = shelf.apps.filter { shelf.picked.contains($0.id) && canRemove($0) }
         guard !chosen.isEmpty else {
-            status = "Ces apps sont ouvertes, ou il vaut mieux les laisser."
+            status = "Ces apps sont ouvertes ou protégées. Mieux vaut les laisser."
             return nil
         }
         var paths: [String] = []

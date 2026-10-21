@@ -72,7 +72,7 @@ final class AdvisorStore {
             let found = await Task.detached(priority: .utility) { AdvisorScan.collect() }.value
             items = found
             if found.isEmpty {
-                status = "Aucun fichier ancien à proposer dans la maison, en dehors des photos, de la musique et de la bibliothèque."
+                status = "Aucun vieux fichier à proposer. Les photos, la musique et la bibliothèque sont exclues."
                 picked = []
                 return
             }
@@ -499,7 +499,7 @@ struct AdvisorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Clairière regarde les fichiers pas ouverts depuis au moins 3 mois : le nom, le dossier, la taille et la date. Elle n’ouvre pas le contenu. Un petit modèle local relit ensuite cette liste. Il tourne sur ce Mac, puis se ferme. Rien ne part sans votre accord, et ça va à la Corbeille.")
+            Text("Clairière regarde les fichiers qui n’ont pas été ouverts depuis trois mois. Elle lit le nom, le dossier, la taille et la date, sans ouvrir le contenu. Ensuite, un petit modèle installé sur ce Mac relit la liste, puis se décharge. Rien ne part sans votre accord, et les fichiers vont à la Corbeille.")
                 .font(.system(size: 13))
                 .foregroundStyle(Theme.muted)
                 .fixedSize(horizontal: false, vertical: true)

@@ -139,7 +139,7 @@ final class DiskStore {
     var scanning = false
     var evicting = false
     var progress = ""
-    var message = "Les fichiers retirés de ce Mac restent dans iCloud. Les ouvrir les retélécharge."
+    var message = "Les fichiers retirés restent dans iCloud. Il suffit de les ouvrir pour les récupérer."
     var denied: [String] = []
     var picked: Set<String> = []
     var confirmEvict = false
@@ -217,7 +217,7 @@ final class DiskStore {
         if batches.isEmpty {
             message = denied.isEmpty
                 ? "Aucun fichier iCloud téléchargé n’occupe de place sur ce Mac."
-                : "macOS n’a pas donné accès à \(denied.joined(separator: ", ")). Autorisez Clairière dans Réglages Système, Confidentialité, Fichiers et dossiers."
+                : "macOS ne laisse pas Clairière lire \(denied.joined(separator: ", ")). Dans Réglages Système, ouvrez Confidentialité et sécurité, puis Fichiers et dossiers, et autorisez Clairière."
         } else {
             message = "\(Format.mem(downloadedBytes)) de fichiers iCloud sont sur ce Mac. Les retirer libère le disque. Ils restent dans iCloud."
         }
